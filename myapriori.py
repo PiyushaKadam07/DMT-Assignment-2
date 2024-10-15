@@ -16,8 +16,9 @@ def calculate_support(transactions, itemsets):
     for transaction in transactions:
         for itemset in itemsets:
             if itemset.issubset(transaction):
-                support_count[itemset] += 1
+                support_count[frozenset(itemset)] += 1  # Use frozenset as dictionary key
     return support_count
+
 
 # Function to generate candidate itemsets of size k
 def generate_candidates(frequent_itemsets, k):
@@ -27,7 +28,7 @@ def generate_candidates(frequent_itemsets, k):
         for j in range(i + 1, len(frequent_items)):
             union_set = frequent_items[i] | frequent_items[j]
             if len(union_set) == k:
-                candidates.add(union_set)
+                candidates.add(frozenset(union_set))  # Use frozenset here
     return candidates
 
 # Apriori algorithm
